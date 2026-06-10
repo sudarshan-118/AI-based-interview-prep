@@ -264,7 +264,7 @@ export default function Layout() {
               }}>
                 {currentPage?.label || 'PrepDeck'}
               </div>
-              <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)', marginTop: 1 }}>
+              <div className="hide-mobile" style={{ fontSize: '0.72rem', color: 'var(--text-muted)', marginTop: 1 }}>
                 {currentPage?.desc || 'AI-powered interview preparation'}
               </div>
             </div>
@@ -293,7 +293,7 @@ export default function Layout() {
             </button>
 
             {/* Status pill */}
-            <div style={{
+            <div className="hide-sm" style={{
               padding: '6px 14px',
               borderRadius: 'var(--radius-full)',
               background: 'rgba(16, 185, 129, 0.1)',
@@ -323,9 +323,9 @@ export default function Layout() {
         {/* Page content */}
         <main
           id="main-content"
+          className="layout-main"
           style={{
             flex: 1,
-            padding: '32px 28px',
             overflow: 'auto',
             background: `
               radial-gradient(ellipse 80% 40% at 50% 0%, rgba(99,102,241,0.06) 0%, transparent 70%),

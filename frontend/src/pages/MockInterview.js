@@ -158,7 +158,7 @@ export default function MockInterview() {
           {/* Type */}
           <div style={{ marginBottom: 32 }}>
             <label style={{ display: 'block', fontSize: '0.72rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 10, color: 'var(--text-muted)' }}>Interview Type</label>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 8 }}>
+            <div className="responsive-grid-2" style={{ gap: 8 }}>
               {INTERVIEW_TYPES.map(t => (
                 <OptionButton key={t} value={`${TYPE_ICONS[t]} ${t}`} active={config.type === t} onClick={() => setConfig(c => ({ ...c, type: t }))} />
               ))}
@@ -199,8 +199,7 @@ export default function MockInterview() {
     return (
       <div style={{ maxWidth: 900, margin: '0 auto', display: 'flex', flexDirection: 'column', height: 'calc(100vh - 130px)' }} className="animate-in">
         {/* Chat header */}
-        <div style={{
-          padding: '14px 20px',
+        <div className="chat-header" style={{
           borderRadius: '14px 14px 0 0',
           background: 'var(--bg-card)',
           border: '1px solid var(--border-mid)',
@@ -242,8 +241,8 @@ export default function MockInterview() {
         </div>
 
         {/* Messages area */}
-        <div style={{
-          flex: 1, overflow: 'auto', padding: '20px',
+        <div className="chat-messages-area" style={{
+          flex: 1, overflow: 'auto',
           background: 'var(--bg-card)',
           border: '1px solid var(--border-mid)',
           borderTop: 'none', borderBottom: 'none',
@@ -295,8 +294,7 @@ export default function MockInterview() {
         </div>
 
         {/* Input area */}
-        <div style={{
-          padding: '14px 16px',
+        <div className="chat-input-area" style={{
           borderRadius: '0 0 14px 14px',
           background: 'var(--bg-card)',
           border: '1px solid var(--border-mid)',
@@ -360,7 +358,7 @@ export default function MockInterview() {
 
         <div style={{ padding: 28, borderRadius: 16, background: 'var(--bg-card)', border: '1px solid var(--border)', marginBottom: 24, textAlign: 'left' }}>
           <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 700, marginBottom: 20, fontSize: '1rem' }}>Session Summary</h3>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14, marginBottom: 24 }}>
+          <div className="responsive-grid-2" style={{ gap: 14, marginBottom: 24 }}>
             {[
               { label: 'Duration', value: formatTime(duration), color: 'var(--accent-bright)' },
               { label: 'Exchanges', value: Math.floor(messages.length / 2), color: 'var(--emerald)' },

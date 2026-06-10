@@ -101,7 +101,7 @@ export default function ResumeAnalyzer() {
           ))}
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: tailorResults ? '1fr' : '1fr 1fr', gap: 24 }}>
+        <div className={tailorResults ? "" : "responsive-grid-2"} style={{ display: 'grid', gridTemplateColumns: tailorResults ? '1fr' : undefined, gap: 24 }}>
           {/* Shared: Resume input */}
           <div style={{ padding: 28, borderRadius: 14, background: 'var(--bg-card)', border: '1px solid var(--border)', display: 'flex', flexDirection: 'column' }}>
             {activeTab === 'analyze' ? (
@@ -116,7 +116,7 @@ export default function ResumeAnalyzer() {
                   </div>
                 </div>
 
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 20 }}>
+                <div className="responsive-grid-2" style={{ gap: 12, marginBottom: 20 }}>
                   <div>
                     <label style={{ display: 'block', fontSize: '0.72rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--text-muted)', marginBottom: 7 }}>Target Role</label>
                     <select className="input" value={targetRole} onChange={e => setTargetRole(e.target.value)}>
@@ -348,7 +348,7 @@ export default function ResumeAnalyzer() {
           </div>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 16 }}>
+        <div className="responsive-grid-2" style={{ gap: 16, marginBottom: 16 }}>
           {/* Strengths */}
           <div style={{ padding: 24, borderRadius: 12, background: 'var(--bg-card)', border: '1px solid var(--border)' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16, color: 'var(--emerald-light)', fontSize: '0.8rem', fontWeight: 700 }}>
@@ -391,7 +391,7 @@ export default function ResumeAnalyzer() {
         {/* Keywords */}
         <div style={{ padding: 24, borderRadius: 12, background: 'var(--bg-card)', border: '1px solid var(--border)', marginBottom: 16 }}>
           <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 700, marginBottom: 18, fontSize: '1rem' }}>Keywords Analysis</h3>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
+          <div className="responsive-grid-2" style={{ gap: 20 }}>
             <div>
               <div style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--rose-light)', marginBottom: 10, textTransform: 'uppercase', letterSpacing: '0.06em' }}>Missing Keywords</div>
               <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>

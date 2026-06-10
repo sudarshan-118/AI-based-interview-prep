@@ -223,7 +223,7 @@ function ProductDemo() {
                 <div style={{ fontSize: '0.65rem', color: 'var(--text-muted)', marginTop: 3 }}>out of 100</div>
               </div>
             </div>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14, marginBottom: 20 }}>
+            <div className="responsive-grid-2" style={{ gap: 14, marginBottom: 20 }}>
               {[['Communication', 82, 'var(--accent-bright)'], ['Technical Depth', 88, 'var(--emerald)'], ['Relevance', 90, 'var(--emerald)'], ['Clarity', 78, 'var(--amber)']].map(([label, score, color]) => (
                 <div key={label}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4 }}>
@@ -236,12 +236,12 @@ function ProductDemo() {
                 </div>
               ))}
             </div>
-            <div style={{ display: 'flex', gap: 10 }}>
-              <div style={{ flex: 1, padding: '12px', borderRadius: 8, background: 'var(--emerald-dim)', border: '1px solid var(--emerald-border)' }}>
+            <div className="responsive-grid-2" style={{ gap: 10 }}>
+              <div style={{ padding: '12px', borderRadius: 8, background: 'var(--emerald-dim)', border: '1px solid var(--emerald-border)' }}>
                 <div style={{ fontSize: '0.72rem', fontWeight: 700, color: 'var(--emerald-light)', marginBottom: 6 }}>✓ STRENGTHS</div>
                 <div style={{ fontSize: '0.78rem', color: 'var(--text-secondary)', lineHeight: 1.5 }}>Correctly identified React.memo and useMemo hooks with clear reasoning.</div>
               </div>
-              <div style={{ flex: 1, padding: '12px', borderRadius: 8, background: 'var(--amber-dim)', border: '1px solid var(--amber-border)' }}>
+              <div style={{ padding: '12px', borderRadius: 8, background: 'var(--amber-dim)', border: '1px solid var(--amber-border)' }}>
                 <div style={{ fontSize: '0.72rem', fontWeight: 700, color: 'var(--amber-light)', marginBottom: 6 }}>→ IMPROVE</div>
                 <div style={{ fontSize: '0.78rem', color: 'var(--text-secondary)', lineHeight: 1.5 }}>Mention React DevTools Profiler for benchmarking before optimizing.</div>
               </div>
@@ -341,9 +341,8 @@ export default function Landing() {
       </div>
 
       {/* Sticky nav */}
-      <nav style={{
+      <nav className="landing-navbar" style={{
         position: 'sticky', top: 0, zIndex: 100,
-        padding: '0 40px',
         height: 70,
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
         background: navScrolled ? 'rgba(8, 9, 15, 0.88)' : 'transparent',
@@ -378,7 +377,7 @@ export default function Landing() {
             {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
           </button>
 
-          <Link to="/login" style={{
+          <Link to="/login" className="hide-sm" style={{
             color: 'var(--text-secondary)', textDecoration: 'none',
             fontWeight: 500, fontSize: '0.88rem',
             padding: '8px 14px', borderRadius: 8,

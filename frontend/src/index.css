@@ -553,12 +553,63 @@ select.input option {
 /* ═══════════════════════════════════════════════════════
    RESPONSIVE UTILITIES
 ═══════════════════════════════════════════════════════ */
+.landing-navbar {
+  padding: 0 40px;
+}
+
+.responsive-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.layout-main {
+  padding: 32px 28px;
+}
+
+.chat-header {
+  padding: 14px 20px;
+}
+
+.chat-messages-area {
+  padding: 20px;
+}
+
+.chat-input-area {
+  padding: 14px 16px;
+}
+
 @media (max-width: 768px) {
   .hide-mobile { display: none !important; }
 }
 
 @media (max-width: 640px) {
   .hide-sm { display: none !important; }
+  
+  .landing-navbar {
+    padding: 0 16px !important;
+  }
+  
+  .responsive-grid-2 {
+    grid-template-columns: 1fr !important;
+    gap: 12px;
+  }
+  
+  .layout-main {
+    padding: 20px 16px !important;
+  }
+
+  .chat-header {
+    padding: 10px 12px !important;
+  }
+
+  .chat-messages-area {
+    padding: 12px !important;
+  }
+
+  .chat-input-area {
+    padding: 10px 12px !important;
+  }
 }
 
 /* ═══════════════════════════════════════════════════════

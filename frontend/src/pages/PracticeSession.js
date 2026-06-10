@@ -202,7 +202,7 @@ export default function PracticeSession() {
           </div>
 
           {/* Type & Count */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, marginBottom: 32 }}>
+          <div className="responsive-grid-2" style={{ gap: 20, marginBottom: 32 }}>
             <div>
               <div style={{ fontSize: '0.72rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--text-muted)', marginBottom: 10 }}>Interview Type</div>
               <select className="input" value={config.type} onChange={e => setConfig(c => ({ ...c, type: e.target.value }))}>
@@ -423,7 +423,7 @@ export default function PracticeSession() {
           </div>
         )}
 
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14, marginBottom: 14 }}>
+        <div className="responsive-grid-2" style={{ gap: 14, marginBottom: 14 }}>
           {/* Strengths */}
           <div style={{ padding: 20, borderRadius: 12, background: 'var(--bg-card)', border: '1px solid var(--border)' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 7, marginBottom: 14, color: 'var(--emerald-light)', fontSize: '0.78rem', fontWeight: 700 }}>
