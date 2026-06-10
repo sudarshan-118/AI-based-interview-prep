@@ -1,16 +1,17 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import { useAuth } from '@clerk/clerk-react';
 import Layout from './components/Layout';
-import Dashboard from './pages/Dashboard';
-import QuestionBank from './pages/QuestionBank';
-import MockInterview from './pages/MockInterview';
-import ResumeAnalyzer from './pages/ResumeAnalyzer';
-import PracticeSession from './pages/PracticeSession';
-import Landing from './pages/Landing';
-import Login from './pages/Login';
 import api from './utils/api';
+
+const Dashboard = lazy(() => import('./pages/Dashboard'));
+const QuestionBank = lazy(() => import('./pages/QuestionBank'));
+const MockInterview = lazy(() => import('./pages/MockInterview'));
+const ResumeAnalyzer = lazy(() => import('./pages/ResumeAnalyzer'));
+const PracticeSession = lazy(() => import('./pages/PracticeSession'));
+const Landing = lazy(() => import('./pages/Landing'));
+const Login = lazy(() => import('./pages/Login'));
 
 // Interceptor component to dynamically add the Clerk JWT token to all API requests
 function AxiosAuthInterceptor({ children }) {
@@ -94,18 +95,24 @@ export default function App() {
             },
           }}
         />
-        <Routes>
-          <Route path="/" element={<Landing />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/app" element={<ProtectedRoute><Layout /></ProtectedRoute>}>
-            <Route index element={<Navigate to="/app/dashboard" replace />} />
-            <Route path="dashboard" element={<Dashboard />} />
-            <Route path="practice" element={<PracticeSession />} />
-            <Route path="questions" element={<QuestionBank />} />
-            <Route path="mock" element={<MockInterview />} />
-            <Route path="resume" element={<ResumeAnalyzer />} />
-          </Route>
-        </Routes>
+        <Suspense fallback={
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh', background: 'var(--bg-base)' }}>
+            <div className="spinner" style={{ width: 36, height: 36, borderWidth: 3 }} />
+          </div>
+        }>
+          <Routes>
+            <Route path="/" element={<Landing />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/app" element={<ProtectedRoute><Layout /></ProtectedRoute>}>
+              <Route index element={<Navigate to="/app/dashboard" replace />} />
+              <Route path="dashboard" element={<Dashboard />} />
+              <Route path="practice" element={<PracticeSession />} />
+              <Route path="questions" element={<QuestionBank />} />
+              <Route path="mock" element={<MockInterview />} />
+              <Route path="resume" element={<ResumeAnalyzer />} />
+            </Route>
+          </Routes>
+        </Suspense>
       </AxiosAuthInterceptor>
     </Router>
   );
