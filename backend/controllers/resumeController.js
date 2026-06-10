@@ -1,10 +1,4 @@
-const Groq = require('groq-sdk');
-
-const client = new Groq({
-  apiKey: process.env.GROQ_API_KEY,
-});
-
-const MODEL = 'llama-3.3-70b-versatile';
+const { generateWithFallback } = require('../utils/geminiHelper');
 
 function extractJSON(text, type = 'object') {
   try {
@@ -48,14 +42,12 @@ Return ONLY a valid JSON object with no extra text, no markdown, no code fences:
   "estimatedInterviewRate": <percentage 0-100>
 }`;
 
-    const completion = await client.chat.completions.create({
-      model: MODEL,
-      max_tokens: 1500,
-      temperature: 0.4,
-      messages: [{ role: 'user', content: prompt }],
+    const result = await generateWithFallback(prompt, {
+      generationConfig: {
+        responseMimeType: 'application/json',
+      }
     });
-
-    const content = completion.choices[0].message.content;
+    const content = result.response.text();
     const analysis = extractJSON(content, 'object');
 
     res.json({ analysis });
@@ -81,17 +73,15 @@ Return ONLY a valid JSON object with no extra text, no markdown, no code fences:
   "explanation": "Why these changes improve the resume"
 }`;
 
-    const completion = await client.chat.completions.create({
-      model: MODEL,
-      max_tokens: 2000,
-      temperature: 0.5,
-      messages: [{ role: 'user', content: prompt }],
+    const result = await generateWithFallback(prompt, {
+      generationConfig: {
+        responseMimeType: 'application/json',
+      }
     });
+    const content = result.response.text();
+    const resultJson = extractJSON(content, 'object');
 
-    const content = completion.choices[0].message.content;
-    const result = extractJSON(content, 'object');
-
-    res.json(result);
+    res.json(resultJson);
   } catch (error) {
     console.error('improveResume error:', error.message);
     res.status(500).json({ error: 'Failed to improve resume', message: error.message });
@@ -123,17 +113,15 @@ Return ONLY a valid JSON object with no extra text, no markdown, no code fences:
   "recommendations": ["r1", "r2", "r3"]
 }`;
 
-    const completion = await client.chat.completions.create({
-      model: MODEL,
-      max_tokens: 2000,
-      temperature: 0.4,
-      messages: [{ role: 'user', content: prompt }],
+    const result = await generateWithFallback(prompt, {
+      generationConfig: {
+        responseMimeType: 'application/json',
+      }
     });
+    const content = result.response.text();
+    const resultJson = extractJSON(content, 'object');
 
-    const content = completion.choices[0].message.content;
-    const result = extractJSON(content, 'object');
-
-    res.json(result);
+    res.json(resultJson);
   } catch (error) {
     console.error('tailorResume error:', error.message);
     res.status(500).json({ error: 'Failed to tailor resume', message: error.message });

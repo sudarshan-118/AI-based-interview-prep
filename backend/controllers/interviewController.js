@@ -1,10 +1,4 @@
-const Groq = require('groq-sdk');
-
-const client = new Groq({
-  apiKey: process.env.GROQ_API_KEY,
-});
-
-const MODEL = 'llama-3.3-70b-versatile';
+const { generateWithFallback } = require('../utils/geminiHelper');
 
 const JOB_ROLES = [
   { id: 'software-engineer', label: 'Software Engineer', icon: '💻' },
@@ -21,10 +15,8 @@ const JOB_ROLES = [
 
 function extractJSON(text, type = 'object') {
   try {
-    // Try parsing the whole text first
     return JSON.parse(text.trim());
   } catch (_) {
-    // Fallback: extract JSON block from markdown/text
     const pattern = type === 'array' ? /\[\s*[\s\S]*?\s*\]/ : /\{\s*[\s\S]*?\s*\}/;
     const match = text.match(pattern);
     if (!match) throw new Error('Could not parse response as JSON');
@@ -62,14 +54,12 @@ Return ONLY a valid JSON array with no extra text, no markdown, no code fences:
 
 Make questions realistic, challenging, and specific to the role.`;
 
-    const completion = await client.chat.completions.create({
-      model: MODEL,
-      max_tokens: 2000,
-      temperature: 0.7,
-      messages: [{ role: 'user', content: prompt }],
+    const result = await generateWithFallback(prompt, {
+      generationConfig: {
+        responseMimeType: 'application/json',
+      }
     });
-
-    const content = completion.choices[0].message.content;
+    const content = result.response.text();
     const questions = extractJSON(content, 'array');
 
     res.json({ questions, role, level, type });
@@ -109,14 +99,12 @@ Evaluate the answer and return ONLY a valid JSON object with no extra text, no m
 
 Be honest, constructive, and specific.`;
 
-    const completion = await client.chat.completions.create({
-      model: MODEL,
-      max_tokens: 1500,
-      temperature: 0.5,
-      messages: [{ role: 'user', content: prompt }],
+    const result = await generateWithFallback(prompt, {
+      generationConfig: {
+        responseMimeType: 'application/json',
+      }
     });
-
-    const content = completion.choices[0].message.content;
+    const content = result.response.text();
     const evaluation = extractJSON(content, 'object');
 
     res.json({ evaluation });
@@ -145,18 +133,19 @@ Keep responses concise (2-4 sentences max unless giving final feedback). When gi
       ? [{ role: 'user', content: 'Start the interview. Greet me briefly and ask your first question.' }]
       : previousMessages;
 
-    const completion = await client.chat.completions.create({
-      model: MODEL,
-      max_tokens: 800,
-      temperature: 0.8,
-      messages: [
-        { role: 'system', content: systemPrompt },
-        ...messages,
-      ],
+    // Map messages to Gemini format
+    const contents = messages.map(msg => ({
+      role: msg.role === 'assistant' ? 'model' : 'user',
+      parts: [{ text: msg.content }]
+    }));
+
+    const result = await generateWithFallback({ contents }, {
+      systemInstruction: systemPrompt
     });
+    const responseText = result.response.text();
 
     res.json({
-      response: completion.choices[0].message.content,
+      response: responseText,
       role: 'assistant',
     });
   } catch (error) {
@@ -188,14 +177,12 @@ Return ONLY a valid JSON object with no extra text, no markdown, no code fences:
   "readinessLevel": "not-ready|almost-ready|ready|highly-ready"
 }`;
 
-    const completion = await client.chat.completions.create({
-      model: MODEL,
-      max_tokens: 1500,
-      temperature: 0.5,
-      messages: [{ role: 'user', content: prompt }],
+    const result = await generateWithFallback(prompt, {
+      generationConfig: {
+        responseMimeType: 'application/json',
+      }
     });
-
-    const content = completion.choices[0].message.content;
+    const content = result.response.text();
     const feedback = extractJSON(content, 'object');
 
     res.json({ feedback });
