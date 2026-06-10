@@ -31,6 +31,10 @@ app.use('/api/', limiter);
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
 
+// Clerk Auth Middleware
+const { clerkMiddleware } = require('@clerk/express');
+app.use(clerkMiddleware());
+
 // Routes
 app.use('/api/interview', interviewRoutes);
 app.use('/api/resume', resumeRoutes);

@@ -12,7 +12,7 @@ function extractJSON(text, type = 'object') {
   } catch (_) {
     const pattern = type === 'array' ? /\[\s*[\s\S]*?\s*\]/ : /\{\s*[\s\S]*?\s*\}/;
     const match = text.match(pattern);
-    if (!match) throw new Error('Could not parse AI response as JSON');
+    if (!match) throw new Error('Could not parse response as JSON');
     return JSON.parse(match[0]);
   }
 }
